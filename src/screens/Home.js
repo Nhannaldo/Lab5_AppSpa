@@ -41,8 +41,8 @@ export const Home = ({navigation})=> {
   // const handleServicePress = (serviceName, price, username, serviceId, refreshData) => {
   //   navigation.navigate('ServiceDetail', { serviceName, price, username, serviceId, refreshData});
   // };
-  const handleServicePress = (serviceName, price, username, serviceId, creator, time, finalupdate) => {
-    navigation.navigate('ServiceDetail', { serviceName, price, username, serviceId, creator, time, finalupdate});
+  const handleServicePress = (item, username) => {
+    navigation.navigate('ServiceDetail', { item, username});
   };
   return (
     <View style={styles.container}>
@@ -61,12 +61,12 @@ export const Home = ({navigation})=> {
             </TouchableHighlight>
         </View>
         
-        <View>
+        <View style={{flex:1}}>
         <FlatList
             data={services}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
-            <ListService name={item.name} price={item.price} onPress={() => handleServicePress(item.name, item.price, userLogin.username, item.id,item.creator,item.time,item.finalupdate)} />
+            <ListService name={item.name} price={item.price} onPress={() => handleServicePress(item, userLogin.username)} />
         )}
       />
         </View>

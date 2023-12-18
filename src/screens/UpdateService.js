@@ -3,24 +3,25 @@ import { Text, View, StyleSheet, TouchableHighlight } from "react-native";
 import { TextInput } from "react-native-paper";
 import firestore from '@react-native-firebase/firestore';
 export const UpdateService = ({ route, navigation })=>{
-    const{serviceName, price, serviceId} = route.params;
-    const [updatedServiceName, setUpdatedServiceName] = useState(serviceName);
-    const [updatedPrice, setUpdatedPrice] = useState(price);
+    const {item} = route.params;
+    const [updatedServiceName, setUpdatedServiceName] = useState(item.name);
+    const [updatedPrice, setUpdatedPrice] = useState(item.price.toString());
     const UpdateServiceToFirestore = async (updatedServiceName, updatedPrice) => {
         try {
           const servicesCollection = firestore().collection('SERVICES');
-          const serviceDoc = servicesCollection.doc(serviceId);
+          const serviceDoc = servicesCollection.doc(item.id);
             const currentTime = new Date();
+            const numericPrice = parseFloat(updatedPrice);
           await serviceDoc.update({
             name: updatedServiceName,
-            price: updatedPrice,
+            price: numericPrice,
             finalupdate: currentTime
           });
     
           alert("Update thành công!");
           // Invoke the refreshData callback passed from Home.js
 
-          navigation.replace("Tab");
+          navigation.replace("Admin");
         } catch (error) {
           console.error('Error updating service in Firestore: ', error);
           alert("Update không thành công!");
